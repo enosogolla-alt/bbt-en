@@ -4,7 +4,384 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Internet Terminology | World Wide Web</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          #020818 0%,
+          #0a1628 30%,
+          #0d2137 60%,
+          #071221 100%
+        );
+        color: #cce3ff;
+        display: flex;
+      }
+
+      /* SIDEBAR */
+      .sidebar {
+        width: 245px;
+        min-width: 245px;
+        min-height: 100vh;
+        background: rgba(5, 15, 35, 0.85);
+        border-right: 1px solid rgba(88, 166, 255, 0.15);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 100;
+      }
+      .sidebar::-webkit-scrollbar {
+        width: 3px;
+      }
+      .sidebar::-webkit-scrollbar-thumb {
+        background: rgba(88, 166, 255, 0.2);
+        border-radius: 2px;
+      }
+
+      .sidebar-header {
+        padding: 22px 18px 16px;
+        border-bottom: 1px solid rgba(88, 166, 255, 0.12);
+      }
+      .sidebar-logo {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        color: #58a6ff;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .sidebar-title {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #e2f0ff;
+        line-height: 1.4;
+      }
+      .sidebar-subtitle {
+        font-size: 10px;
+        color: rgba(140, 180, 230, 0.6);
+        margin-top: 3px;
+        font-family: "Share Tech Mono", monospace;
+      }
+      .sidebar-nav {
+        flex: 1;
+        padding: 10px 0 20px;
+      }
+      .nav-group-label {
+        font-size: 9px;
+        font-weight: 600;
+        color: rgba(88, 166, 255, 0.45);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 14px 18px 5px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 7px 18px;
+        border-left: 2px solid transparent;
+        text-decoration: none;
+        transition: all 0.15s ease;
+      }
+      .nav-item:hover {
+        background: rgba(88, 166, 255, 0.06);
+        border-left-color: rgba(88, 166, 255, 0.3);
+      }
+      .nav-item.active {
+        background: rgba(88, 166, 255, 0.1);
+        border-left-color: #58a6ff;
+      }
+      .nav-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(88, 166, 255, 0.25);
+        flex-shrink: 0;
+      }
+      .nav-item.active .nav-dot {
+        background: #58a6ff;
+      }
+      .nav-text {
+        font-size: 12px;
+        color: rgba(180, 210, 250, 0.7);
+      }
+      .nav-item:hover .nav-text {
+        color: #b4d2fa;
+      }
+      .nav-item.active .nav-text {
+        color: #e2f0ff;
+        font-weight: 500;
+      }
+
+      /* MAIN */
+      .main-content {
+        margin-left: 245px;
+        flex: 1;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* TOPBAR */
+      .topbar {
+        background: rgba(5, 15, 35, 0.6);
+        border-bottom: 1px solid rgba(88, 166, 255, 0.12);
+        padding: 13px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      .breadcrumb {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: rgba(140, 180, 230, 0.55);
+      }
+      .breadcrumb a {
+        color: #58a6ff;
+        text-decoration: none;
+      }
+      .page-nav {
+        display: flex;
+        gap: 8px;
+      }
+      .page-btn {
+        font-size: 11px;
+        padding: 5px 14px;
+        border: 1px solid rgba(88, 166, 255, 0.25);
+        border-radius: 5px;
+        background: rgba(88, 166, 255, 0.06);
+        color: #7db8f7;
+        text-decoration: none;
+        font-family: "Share Tech Mono", monospace;
+        transition: all 0.15s;
+      }
+      .page-btn:hover {
+        background: rgba(88, 166, 255, 0.14);
+        color: #acd4ff;
+      }
+
+      /* PAGE BODY */
+      .page-body {
+        padding: 36px 48px 60px;
+        max-width: 860px;
+      }
+
+      .term-badge {
+        display: inline-block;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        background: rgba(88, 166, 255, 0.1);
+        color: #58a6ff;
+        padding: 4px 10px;
+        border-radius: 3px;
+        margin-bottom: 14px;
+        border: 1px solid rgba(88, 166, 255, 0.2);
+      }
+      .term-title {
+        font-size: 32px;
+        font-weight: 600;
+        color: #e2f0ff;
+        margin-bottom: 6px;
+      }
+      .term-aka {
+        font-size: 12px;
+        color: rgba(140, 180, 230, 0.5);
+        font-style: italic;
+        margin-bottom: 20px;
+        font-family: "Share Tech Mono", monospace;
+      }
+      .section-label {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #58a6ff;
+        margin-bottom: 10px;
+        margin-top: 28px;
+      }
+      .term-desc {
+        font-size: 14px;
+        color: #a8c8f0;
+        line-height: 1.85;
+        margin-bottom: 8px;
+      }
+
+      /* HIGHLIGHT BOX */
+      .highlight-box {
+        background: rgba(88, 166, 255, 0.07);
+        border-left: 3px solid #58a6ff;
+        border-radius: 0 8px 8px 0;
+        padding: 16px 20px;
+        margin: 20px 0;
+      }
+      .highlight-box p {
+        font-size: 14px;
+        color: #b4d2fa;
+        line-height: 1.8;
+        margin: 0;
+      }
+
+      /* IMAGE BLOCK */
+      .img-block {
+        border: 1px solid rgba(88, 166, 255, 0.15);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 24px 0;
+        background: rgba(5, 15, 35, 0.5);
+      }
+      .img-block img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        display: block;
+      }
+      .img-caption {
+        padding: 10px 16px;
+        font-size: 11px;
+        color: rgba(140, 180, 230, 0.55);
+        font-family: "Share Tech Mono", monospace;
+        border-top: 1px solid rgba(88, 166, 255, 0.1);
+      }
+
+      /* STEPS */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin: 20px 0;
+      }
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        background: rgba(88, 166, 255, 0.04);
+        border: 1px solid rgba(88, 166, 255, 0.12);
+        border-radius: 8px;
+        padding: 14px 18px;
+      }
+      .step-num {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: #58a6ff;
+        background: rgba(88, 166, 255, 0.12);
+        border: 1px solid rgba(88, 166, 255, 0.25);
+        border-radius: 5px;
+        padding: 4px 9px;
+        flex-shrink: 0;
+        letter-spacing: 1px;
+      }
+      .step-content strong {
+        display: block;
+        font-size: 13px;
+        color: #e2f0ff;
+        margin-bottom: 4px;
+      }
+      .step-content p {
+        font-size: 12.5px;
+        color: #7da8d8;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      /* DIVIDER */
+      .divider {
+        border: none;
+        border-top: 1px solid rgba(88, 166, 255, 0.1);
+        margin: 28px 0;
+      }
+
+      /* FACT STRIP */
+      .fact-strip {
+        background: linear-gradient(
+          90deg,
+          rgba(88, 166, 255, 0.08),
+          rgba(88, 166, 255, 0.03)
+        );
+        border: 1px solid rgba(88, 166, 255, 0.13);
+        border-radius: 8px;
+        padding: 14px 20px;
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .fact-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+      .fact-text {
+        font-size: 13px;
+        color: #a8c8f0;
+        line-height: 1.6;
+      }
+      .fact-text strong {
+        color: #58a6ff;
+      }
+
+      /* INFO CARDS */
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin: 24px 0;
+      }
+      .info-card {
+        background: rgba(88, 166, 255, 0.06);
+        border: 1px solid rgba(88, 166, 255, 0.14);
+        border-radius: 8px;
+        padding: 14px 16px;
+      }
+      .info-card-label {
+        font-size: 9px;
+        color: rgba(88, 166, 255, 0.6);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 5px;
+        font-family: "Share Tech Mono", monospace;
+      }
+      .info-card-val {
+        font-size: 13px;
+        font-weight: 500;
+        color: #cce3ff;
+      }
+
+      /* TAGS */
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 8px;
+      }
+      .tag {
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 4px;
+        background: rgba(88, 166, 255, 0.08);
+        color: #7db8f7;
+        border: 1px solid rgba(88, 166, 255, 0.18);
+        font-family: "Share Tech Mono", monospace;
+      }
+    </style>
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -16,82 +393,82 @@
       </div>
       <nav class="sidebar-nav">
         <div class="nav-group-label">Core Concepts</div>
-        <a class="nav-item" href="index.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Home</span>
-        </a>
-        <a class="nav-item active" href="www.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">World Wide Web</span>
-        </a>
-        <a class="nav-item" href="tcp-ip.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">TCP/IP</span>
-        </a>
-        <a class="nav-item" href="web-browsers.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web Browsers</span>
-        </a>
-        <a class="nav-item" href="web-servers.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web Servers</span>
-        </a>
+        <a class="nav-item" href="index.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Home</span></a
+        >
+        <a class="nav-item active" href="www.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">World Wide Web</span></a
+        >
+        <a class="nav-item" href="tcp-ip.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">TCP/IP</span></a
+        >
+        <a class="nav-item" href="web-browsers.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web Browsers</span></a
+        >
+        <a class="nav-item" href="web-servers.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web Servers</span></a
+        >
 
         <div class="nav-group-label">Addressing</div>
-        <a class="nav-item" href="urls.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">URLs</span>
-        </a>
-        <a class="nav-item" href="dns.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Domain Name Server</span>
-        </a>
-        <a class="nav-item" href="http.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">HTTP</span>
-        </a>
+        <a class="nav-item" href="urls.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">URLs</span></a
+        >
+        <a class="nav-item" href="dns.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Domain Name Server</span></a
+        >
+        <a class="nav-item" href="http.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">HTTP</span></a
+        >
 
         <div class="nav-group-label">Networks</div>
-        <a class="nav-item" href="intranet.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Intranet</span>
-        </a>
-        <a class="nav-item" href="extranet.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Extranet</span>
-        </a>
-        <a class="nav-item" href="multitier.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Multitier Architecture</span>
-        </a>
+        <a class="nav-item" href="intranet.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Intranet</span></a
+        >
+        <a class="nav-item" href="extranet.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Extranet</span></a
+        >
+        <a class="nav-item" href="multitier.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Multitier Architecture</span></a
+        >
 
         <div class="nav-group-label">Protocols &amp; Languages</div>
-        <a class="nav-item" href="ftp.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">File Transfer Protocol</span>
-        </a>
-        <a class="nav-item" href="html-term.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">HTML</span>
-        </a>
+        <a class="nav-item" href="ftp.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">File Transfer Protocol</span></a
+        >
+        <a class="nav-item" href="html-term.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">HTML</span></a
+        >
 
         <div class="nav-group-label">Web Evolution</div>
-        <a class="nav-item" href="web1.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web 1.0</span>
-        </a>
-        <a class="nav-item" href="web2.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web 2.0</span>
-        </a>
-        <a class="nav-item" href="web3.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web 3.0</span>
-        </a>
-        <a class="nav-item" href="web4.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web 4.0</span>
-        </a>
+        <a class="nav-item" href="web1.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 1.0</span></a
+        >
+        <a class="nav-item" href="web2.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 2.0</span></a
+        >
+        <a class="nav-item" href="web3.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 3.0</span></a
+        >
+        <a class="nav-item" href="web4.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 4.0</span></a
+        >
       </nav>
     </aside>
 
@@ -103,59 +480,104 @@
         </div>
         <div class="page-nav">
           <a class="page-btn" href="index.html">&#8592; Home</a>
-          <a class="page-btn" href="tcp-ip.html">Next &#8594;</a>
+          <a class="page-btn" href="tcp-ip.html">TCP/IP &#8594;</a>
         </div>
       </div>
 
       <div class="page-body">
         <div class="term-badge">01 &nbsp;/&nbsp; Core Concept</div>
         <div class="term-title">World Wide Web</div>
-        <div class="term-aka">Also known as: the Web, WWW, W3</div>
+        <div class="term-aka">
+          Abbreviated: WWW &nbsp;&bull;&nbsp; Invented: 1989 &nbsp;&bull;&nbsp;
+          Public Release: 1991
+        </div>
 
-        <div class="section-label">Overview</div>
-        <p class="term-desc">
-          The World Wide Web is an information system that enables documents,
-          images, videos, and other resources to be accessed over the Internet
-          through a web browser. It was invented by British scientist Tim
-          Berners-Lee in 1989 while working at CERN, and became publicly
-          available in 1991. The Web is not the same as the Internet — rather,
-          it is one of many services that runs on top of the Internet
-          infrastructure.
-        </p>
-
-        <div class="section-label">How It Works</div>
-        <p class="term-desc">
-          The Web operates through three core technologies: HTML (HyperText
-          Markup Language) which structures content, URLs (Uniform Resource
-          Locators) which provide unique addresses for every resource, and HTTP
-          (HyperText Transfer Protocol) which governs how data is requested and
-          delivered between a browser and a server. When you type a web address,
-          your browser sends an HTTP request to a web server, which then returns
-          the requested page for your browser to display.
-        </p>
+        <div class="highlight-box">
+          <p>
+            The World Wide Web is a vast, interconnected system of documents and
+            digital resources linked by hyperlinks and URLs, accessible through
+            the Internet via a web browser. It is the single most transformative
+            information system ever built — powering everything from search
+            engines to online banking to streaming platforms.
+          </p>
+        </div>
 
         <div class="img-block">
           <img
             src="images/www.jpg"
-            alt="Diagram showing how the World Wide Web works"
+            alt="World Wide Web network of interconnected servers"
           />
           <div class="img-caption">
-            Fig 1. — Structure of the World Wide Web showing interconnected
-            nodes, hyperlinks, and client-server communication
+            &#9670; Global network of interconnected web servers and clients
+            communicating via HTTP
           </div>
         </div>
+
+        <div class="section-label">How It Works</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <strong>You type a URL into your browser</strong>
+              <p>
+                The browser interprets the address and prepares an HTTP request
+                to send to the correct server.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <strong>DNS resolves the domain to an IP address</strong>
+              <p>
+                The domain name (e.g. google.com) is translated into a numeric
+                IP address so the request is routed correctly.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <strong>The web server receives and responds</strong>
+              <p>
+                The server processes the request and returns the HTML, CSS, and
+                JavaScript files that make up the page.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <strong>Your browser renders the page</strong>
+              <p>
+                The browser assembles all files and displays the fully formatted
+                webpage on your screen.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
 
         <div class="section-label">
           Role in Computer &amp; Internet Technology
         </div>
         <p class="term-desc">
-          The World Wide Web transformed how humans access, share, and
-          communicate information. It enabled the rise of e-commerce, online
-          education, social media, cloud computing, and virtually every modern
-          digital service. It democratised information by making it accessible
-          to anyone with an internet connection and a browser, regardless of
-          location or technical expertise.
+          The Web sits on top of the Internet's infrastructure and uses it as a
+          transport layer. Without the Web, the Internet would exist purely as a
+          network of raw data pipes — useful only to engineers. The WWW gave it
+          a human-friendly face through pages, links, and media, enabling mass
+          adoption across every sector of society and industry.
         </p>
+
+        <div class="fact-strip">
+          <div class="fact-icon">&#128161;</div>
+          <div class="fact-text">
+            <strong>Key distinction:</strong> The Internet is the global network
+            infrastructure. The World Wide Web is a service that runs on top of
+            it — just like email or FTP. They are not the same thing.
+          </div>
+        </div>
 
         <div class="info-grid">
           <div class="info-card">
@@ -163,20 +585,20 @@
             <div class="info-card-val">Tim Berners-Lee</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Year</div>
-            <div class="info-card-val">1989 (public: 1991)</div>
+            <div class="info-card-label">Origin</div>
+            <div class="info-card-val">CERN, Switzerland</div>
           </div>
           <div class="info-card">
             <div class="info-card-label">Core Protocol</div>
             <div class="info-card-val">HTTP / HTTPS</div>
           </div>
           <div class="info-card">
-            <div class="info-card-label">Built On</div>
-            <div class="info-card-val">The Internet (TCP/IP)</div>
+            <div class="info-card-label">Runs On</div>
+            <div class="info-card-val">Internet (TCP/IP)</div>
           </div>
         </div>
 
-        <div class="section-label">Key Terms</div>
+        <div class="section-label">Related Terms</div>
         <div class="tag-row">
           <span class="tag">HTML</span>
           <span class="tag">HTTP</span>
@@ -184,7 +606,8 @@
           <span class="tag">Hyperlinks</span>
           <span class="tag">Web Browser</span>
           <span class="tag">Web Server</span>
-          <span class="tag">Tim Berners-Lee</span>
+          <span class="tag">DNS</span>
+          <span class="tag">TCP/IP</span>
         </div>
       </div>
     </div>
