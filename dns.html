@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Internet Terminology | Domain Name Server</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          #020818 0%,
+          #0a1628 30%,
+          #0d2137 60%,
+          #071221 100%
+        );
+        color: #cce3ff;
+        display: flex;
+      }
+
+      .sidebar {
+        width: 245px;
+        min-width: 245px;
+        min-height: 100vh;
+        background: rgba(5, 15, 35, 0.85);
+        border-right: 1px solid rgba(88, 166, 255, 0.15);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 100;
+      }
+      .sidebar::-webkit-scrollbar {
+        width: 3px;
+      }
+      .sidebar::-webkit-scrollbar-thumb {
+        background: rgba(88, 166, 255, 0.2);
+        border-radius: 2px;
+      }
+      .sidebar-header {
+        padding: 22px 18px 16px;
+        border-bottom: 1px solid rgba(88, 166, 255, 0.12);
+      }
+      .sidebar-logo {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        color: #58a6ff;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .sidebar-title {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #e2f0ff;
+        line-height: 1.4;
+      }
+      .sidebar-subtitle {
+        font-size: 10px;
+        color: rgba(140, 180, 230, 0.6);
+        margin-top: 3px;
+        font-family: "Share Tech Mono", monospace;
+      }
+      .sidebar-nav {
+        flex: 1;
+        padding: 10px 0 20px;
+      }
+      .nav-group-label {
+        font-size: 9px;
+        font-weight: 600;
+        color: rgba(88, 166, 255, 0.45);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 14px 18px 5px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 7px 18px;
+        border-left: 2px solid transparent;
+        text-decoration: none;
+        transition: all 0.15s ease;
+      }
+      .nav-item:hover {
+        background: rgba(88, 166, 255, 0.06);
+        border-left-color: rgba(88, 166, 255, 0.3);
+      }
+      .nav-item.active {
+        background: rgba(88, 166, 255, 0.1);
+        border-left-color: #58a6ff;
+      }
+      .nav-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(88, 166, 255, 0.25);
+        flex-shrink: 0;
+      }
+      .nav-item.active .nav-dot {
+        background: #58a6ff;
+      }
+      .nav-text {
+        font-size: 12px;
+        color: rgba(180, 210, 250, 0.7);
+      }
+      .nav-item:hover .nav-text {
+        color: #b4d2fa;
+      }
+      .nav-item.active .nav-text {
+        color: #e2f0ff;
+        font-weight: 500;
+      }
+
+      .main-content {
+        margin-left: 245px;
+        flex: 1;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        background: rgba(5, 15, 35, 0.6);
+        border-bottom: 1px solid rgba(88, 166, 255, 0.12);
+        padding: 13px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      .breadcrumb {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: rgba(140, 180, 230, 0.55);
+      }
+      .breadcrumb a {
+        color: #58a6ff;
+        text-decoration: none;
+      }
+      .page-nav {
+        display: flex;
+        gap: 8px;
+      }
+      .page-btn {
+        font-size: 11px;
+        padding: 5px 14px;
+        border: 1px solid rgba(88, 166, 255, 0.25);
+        border-radius: 5px;
+        background: rgba(88, 166, 255, 0.06);
+        color: #7db8f7;
+        text-decoration: none;
+        font-family: "Share Tech Mono", monospace;
+        transition: all 0.15s;
+      }
+      .page-btn:hover {
+        background: rgba(88, 166, 255, 0.14);
+        color: #acd4ff;
+      }
+
+      .page-body {
+        padding: 36px 48px 60px;
+        max-width: 860px;
+      }
+      .term-badge {
+        display: inline-block;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        background: rgba(88, 166, 255, 0.1);
+        color: #58a6ff;
+        padding: 4px 10px;
+        border-radius: 3px;
+        margin-bottom: 14px;
+        border: 1px solid rgba(88, 166, 255, 0.2);
+      }
+      .term-title {
+        font-size: 32px;
+        font-weight: 600;
+        color: #e2f0ff;
+        margin-bottom: 6px;
+      }
+      .term-aka {
+        font-size: 12px;
+        color: rgba(140, 180, 230, 0.5);
+        font-style: italic;
+        margin-bottom: 20px;
+        font-family: "Share Tech Mono", monospace;
+      }
+      .section-label {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #58a6ff;
+        margin-bottom: 10px;
+        margin-top: 28px;
+      }
+      .term-desc {
+        font-size: 14px;
+        color: #a8c8f0;
+        line-height: 1.85;
+        margin-bottom: 8px;
+      }
+
+      .highlight-box {
+        background: rgba(88, 166, 255, 0.07);
+        border-left: 3px solid #58a6ff;
+        border-radius: 0 8px 8px 0;
+        padding: 16px 20px;
+        margin: 20px 0;
+      }
+      .highlight-box p {
+        font-size: 14px;
+        color: #b4d2fa;
+        line-height: 1.8;
+        margin: 0;
+      }
+
+      .img-block {
+        border: 1px solid rgba(88, 166, 255, 0.15);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 24px 0;
+        background: rgba(5, 15, 35, 0.5);
+      }
+      .img-block img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .img-caption {
+        padding: 10px 16px;
+        font-size: 11px;
+        color: rgba(140, 180, 230, 0.55);
+        font-family: "Share Tech Mono", monospace;
+        border-top: 1px solid rgba(88, 166, 255, 0.1);
+      }
+
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin: 20px 0;
+      }
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        background: rgba(88, 166, 255, 0.04);
+        border: 1px solid rgba(88, 166, 255, 0.12);
+        border-radius: 8px;
+        padding: 14px 18px;
+      }
+      .step-num {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: #58a6ff;
+        background: rgba(88, 166, 255, 0.12);
+        border: 1px solid rgba(88, 166, 255, 0.25);
+        border-radius: 5px;
+        padding: 4px 9px;
+        flex-shrink: 0;
+        letter-spacing: 1px;
+      }
+      .step-content strong {
+        display: block;
+        font-size: 13px;
+        color: #e2f0ff;
+        margin-bottom: 4px;
+      }
+      .step-content p {
+        font-size: 12.5px;
+        color: #7da8d8;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid rgba(88, 166, 255, 0.1);
+        margin: 28px 0;
+      }
+
+      .fact-strip {
+        background: linear-gradient(
+          90deg,
+          rgba(88, 166, 255, 0.08),
+          rgba(88, 166, 255, 0.03)
+        );
+        border: 1px solid rgba(88, 166, 255, 0.13);
+        border-radius: 8px;
+        padding: 14px 20px;
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .fact-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+      .fact-text {
+        font-size: 13px;
+        color: #a8c8f0;
+        line-height: 1.6;
+      }
+      .fact-text strong {
+        color: #58a6ff;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin: 24px 0;
+      }
+      .info-card {
+        background: rgba(88, 166, 255, 0.06);
+        border: 1px solid rgba(88, 166, 255, 0.14);
+        border-radius: 8px;
+        padding: 14px 16px;
+      }
+      .info-card-label {
+        font-size: 9px;
+        color: rgba(88, 166, 255, 0.6);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 5px;
+        font-family: "Share Tech Mono", monospace;
+      }
+      .info-card-val {
+        font-size: 13px;
+        font-weight: 500;
+        color: #cce3ff;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 8px;
+      }
+      .tag {
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 4px;
+        background: rgba(88, 166, 255, 0.08);
+        color: #7db8f7;
+        border: 1px solid rgba(88, 166, 255, 0.18);
+        font-family: "Share Tech Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">&#9670; WebTech</div>
+        <div class="sidebar-title">Internet Terminology</div>
+        <div class="sidebar-subtitle">Computer &amp; Internet Technology</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group-label">Core Concepts</div>
+        <a class="nav-item" href="index.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Home</span></a
+        >
+        <a class="nav-item" href="www.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">World Wide Web</span></a
+        >
+        <a class="nav-item" href="tcp-ip.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">TCP/IP</span></a
+        >
+        <a class="nav-item" href="web-browsers.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web Browsers</span></a
+        >
+        <a class="nav-item" href="web-servers.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web Servers</span></a
+        >
+
+        <div class="nav-group-label">Addressing</div>
+        <a class="nav-item" href="urls.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">URLs</span></a
+        >
+        <a class="nav-item active" href="dns.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Domain Name Server</span></a
+        >
+        <a class="nav-item" href="http.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">HTTP</span></a
+        >
+
+        <div class="nav-group-label">Networks</div>
+        <a class="nav-item" href="intranet.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Intranet</span></a
+        >
+        <a class="nav-item" href="extranet.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Extranet</span></a
+        >
+        <a class="nav-item" href="multitier.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Multitier Architecture</span></a
+        >
+
+        <div class="nav-group-label">Protocols &amp; Languages</div>
+        <a class="nav-item" href="ftp.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">File Transfer Protocol</span></a
+        >
+        <a class="nav-item" href="html-term.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">HTML</span></a
+        >
+
+        <div class="nav-group-label">Web Evolution</div>
+        <a class="nav-item" href="web1.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 1.0</span></a
+        >
+        <a class="nav-item" href="web2.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 2.0</span></a
+        >
+        <a class="nav-item" href="web3.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 3.0</span></a
+        >
+        <a class="nav-item" href="web4.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 4.0</span></a
+        >
+      </nav>
+    </aside>
+
+    <div class="main-content">
+      <div class="topbar">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a> / Domain Name Server
+        </div>
+        <div class="page-nav">
+          <a class="page-btn" href="urls.html">&#8592; URLs</a>
+          <a class="page-btn" href="http.html">HTTP &#8594;</a>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <div class="term-badge">06 &nbsp;/&nbsp; Addressing</div>
+        <div class="term-title">Domain Name Server</div>
+        <div class="term-aka">
+          Abbreviated: DNS &nbsp;&bull;&nbsp; Often called: The Internet's Phone
+          Book &nbsp;&bull;&nbsp; Port: 53
+        </div>
+
+        <div class="highlight-box">
+          <p>
+            The Domain Name System is the Internet's naming system that
+            translates human-readable domain names like www.google.com into
+            machine-readable IP addresses like 142.250.80.46. Without DNS, users
+            would have to memorise a numeric IP address for every website they
+            want to visit.
+          </p>
+        </div>
+
+        <div class="img-block">
+          <img src="images/dns.png" alt="DNS resolution process diagram" />
+          <div class="img-caption">
+            &#9670; The DNS resolution process — how a domain name is translated
+            into an IP address step by step
+          </div>
+        </div>
+
+        <div class="section-label">How DNS Works</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <strong>Browser checks its local cache</strong>
+              <p>
+                Before making any request, the browser checks if it already
+                knows the IP address for the domain from a previous visit.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <strong>Query sent to Recursive Resolver</strong>
+              <p>
+                If not cached, the query goes to a DNS resolver — usually
+                provided by your Internet Service Provider — which begins the
+                lookup process.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <strong>Root and TLD Name Servers consulted</strong>
+              <p>
+                The resolver queries root servers and Top Level Domain servers
+                (like .com or .org) to find which server holds the domain's
+                records.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <strong>IP address returned to browser</strong>
+              <p>
+                The authoritative name server returns the correct IP address,
+                which the browser then uses to connect directly to the web
+                server.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="section-label">
+          Role in Computer &amp; Internet Technology
+        </div>
+        <p class="term-desc">
+          DNS is one of the most critical and invisible components of the
+          Internet. It operates silently behind every website visit, email sent,
+          and app used. It makes the Internet human-friendly by allowing people
+          to use memorable names instead of numeric addresses. A failure in DNS
+          can make entire websites and services unreachable, even if the servers
+          themselves are perfectly functional.
+        </p>
+
+        <div class="fact-strip">
+          <div class="fact-icon">&#128222;</div>
+          <div class="fact-text">
+            <strong>Speed matters:</strong> DNS lookups typically complete in
+            under 100 milliseconds. Major providers like Google (8.8.8.8) and
+            Cloudflare (1.1.1.1) offer public DNS servers optimised for speed
+            and privacy.
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-label">Created By</div>
+            <div class="info-card-val">Paul Mockapetris</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Year</div>
+            <div class="info-card-val">1983</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Default Port</div>
+            <div class="info-card-val">Port 53</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">Popular DNS</div>
+            <div class="info-card-val">8.8.8.8 / 1.1.1.1</div>
+          </div>
+        </div>
+
+        <div class="section-label">Related Terms</div>
+        <div class="tag-row">
+          <span class="tag">IP Address</span>
+          <span class="tag">URLs</span>
+          <span class="tag">HTTP</span>
+          <span class="tag">Domain Name</span>
+          <span class="tag">Web Browser</span>
+          <span class="tag">TCP/IP</span>
+          <span class="tag">Web Server</span>
+          <span class="tag">WWW</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
