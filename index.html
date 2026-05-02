@@ -4,234 +4,403 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Internet Terminology | Home</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          #020818 0%,
+          #0a1628 30%,
+          #0d2137 60%,
+          #071221 100%
+        );
+        color: #cce3ff;
+        display: flex;
+      }
+      .sidebar {
+        width: 245px;
+        min-width: 245px;
+        min-height: 100vh;
+        background: rgba(5, 15, 35, 0.85);
+        border-right: 1px solid rgba(88, 166, 255, 0.15);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 100;
+      }
+      .sidebar::-webkit-scrollbar {
+        width: 3px;
+      }
+      .sidebar::-webkit-scrollbar-thumb {
+        background: rgba(88, 166, 255, 0.2);
+        border-radius: 2px;
+      }
+      .sidebar-header {
+        padding: 22px 18px 16px;
+        border-bottom: 1px solid rgba(88, 166, 255, 0.12);
+      }
+      .sidebar-logo {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        color: #58a6ff;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .sidebar-title {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #e2f0ff;
+        line-height: 1.4;
+      }
+      .sidebar-subtitle {
+        font-size: 10px;
+        color: rgba(140, 180, 230, 0.6);
+        margin-top: 3px;
+        font-family: "Share Tech Mono", monospace;
+      }
+      .sidebar-nav {
+        flex: 1;
+        padding: 10px 0 20px;
+      }
+      .nav-group-label {
+        font-size: 9px;
+        font-weight: 600;
+        color: rgba(88, 166, 255, 0.45);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 14px 18px 5px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 7px 18px;
+        border-left: 2px solid transparent;
+        text-decoration: none;
+        transition: all 0.15s ease;
+      }
+      .nav-item:hover {
+        background: rgba(88, 166, 255, 0.06);
+        border-left-color: rgba(88, 166, 255, 0.3);
+      }
+      .nav-item.active {
+        background: rgba(88, 166, 255, 0.1);
+        border-left-color: #58a6ff;
+      }
+      .nav-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(88, 166, 255, 0.25);
+        flex-shrink: 0;
+      }
+      .nav-item.active .nav-dot {
+        background: #58a6ff;
+      }
+      .nav-text {
+        font-size: 12px;
+        color: rgba(180, 210, 250, 0.7);
+      }
+      .nav-item:hover .nav-text {
+        color: #b4d2fa;
+      }
+      .nav-item.active .nav-text {
+        color: #e2f0ff;
+        font-weight: 500;
+      }
+
+      .main-content {
+        margin-left: 245px;
+        flex: 1;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        background: rgba(5, 15, 35, 0.6);
+        border-bottom: 1px solid rgba(88, 166, 255, 0.12);
+        padding: 13px 32px;
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      .breadcrumb {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: rgba(140, 180, 230, 0.55);
+      }
+      .breadcrumb a {
+        color: #58a6ff;
+        text-decoration: none;
+      }
+
+      .page-body {
+        padding: 40px 48px 60px;
+      }
+
+      .page-heading {
+        font-size: 28px;
+        font-weight: 600;
+        color: #e2f0ff;
+        margin-bottom: 6px;
+      }
+      .page-sub {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: rgba(140, 180, 230, 0.5);
+        margin-bottom: 36px;
+      }
+
+      .group-label {
+        font-size: 9px;
+        font-weight: 600;
+        color: rgba(88, 166, 255, 0.5);
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        font-family: "Share Tech Mono", monospace;
+        margin-bottom: 14px;
+        margin-top: 32px;
+      }
+
+      .terms-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+
+      .term-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 18px;
+        background: rgba(88, 166, 255, 0.05);
+        border: 1px solid rgba(88, 166, 255, 0.14);
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.15s ease;
+      }
+      .term-card:hover {
+        background: rgba(88, 166, 255, 0.12);
+        border-color: rgba(88, 166, 255, 0.35);
+        transform: translateY(-1px);
+      }
+      .term-card-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #58a6ff;
+        flex-shrink: 0;
+        opacity: 0.6;
+      }
+      .term-card:hover .term-card-dot {
+        opacity: 1;
+      }
+      .term-card-name {
+        font-size: 13px;
+        font-weight: 500;
+        color: #a8c8f0;
+      }
+      .term-card:hover .term-card-name {
+        color: #e2f0ff;
+      }
+    </style>
   </head>
   <body>
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo">&#9670; WebTech</div>
         <div class="sidebar-title">Internet Terminology</div>
         <div class="sidebar-subtitle">Computer &amp; Internet Technology</div>
       </div>
-
       <nav class="sidebar-nav">
         <div class="nav-group-label">Core Concepts</div>
-        <a class="nav-item active" href="index.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Home</span>
-        </a>
-        <a class="nav-item" href="www.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">World Wide Web</span>
-        </a>
-        <a class="nav-item" href="tcp-ip.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">TCP/IP</span>
-        </a>
-        <a class="nav-item" href="web-browsers.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web Browsers</span>
-        </a>
-        <a class="nav-item" href="web-servers.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web Servers</span>
-        </a>
-
+        <a class="nav-item active" href="index.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Home</span></a
+        >
+        <a class="nav-item" href="www.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">World Wide Web</span></a
+        >
+        <a class="nav-item" href="tcp-ip.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">TCP/IP</span></a
+        >
+        <a class="nav-item" href="web-browsers.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web Browsers</span></a
+        >
+        <a class="nav-item" href="web-servers.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web Servers</span></a
+        >
         <div class="nav-group-label">Addressing</div>
-        <a class="nav-item" href="urls.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">URLs</span>
-        </a>
-        <a class="nav-item" href="dns.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Domain Name Server</span>
-        </a>
-        <a class="nav-item" href="http.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">HTTP</span>
-        </a>
-
+        <a class="nav-item" href="urls.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">URLs</span></a
+        >
+        <a class="nav-item" href="dns.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Domain Name Server</span></a
+        >
+        <a class="nav-item" href="http.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">HTTP</span></a
+        >
         <div class="nav-group-label">Networks</div>
-        <a class="nav-item" href="intranet.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Intranet</span>
-        </a>
-        <a class="nav-item" href="extranet.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Extranet</span>
-        </a>
-        <a class="nav-item" href="multitier.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Multitier Architecture</span>
-        </a>
-
+        <a class="nav-item" href="intranet.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Intranet</span></a
+        >
+        <a class="nav-item" href="extranet.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Extranet</span></a
+        >
+        <a class="nav-item" href="multitier.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Multitier Architecture</span></a
+        >
         <div class="nav-group-label">Protocols &amp; Languages</div>
-        <a class="nav-item" href="ftp.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">File Transfer Protocol</span>
-        </a>
-        <a class="nav-item" href="html-term.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">HTML</span>
-        </a>
-
+        <a class="nav-item" href="ftp.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">File Transfer Protocol</span></a
+        >
+        <a class="nav-item" href="html-term.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">HTML</span></a
+        >
         <div class="nav-group-label">Web Evolution</div>
-        <a class="nav-item" href="web1.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web 1.0</span>
-        </a>
-        <a class="nav-item" href="web2.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web 2.0</span>
-        </a>
-        <a class="nav-item" href="web3.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web 3.0</span>
-        </a>
-        <a class="nav-item" href="web4.html">
-          <div class="nav-dot"></div>
-          <span class="nav-text">Web 4.0</span>
-        </a>
+        <a class="nav-item" href="web1.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 1.0</span></a
+        >
+        <a class="nav-item" href="web2.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 2.0</span></a
+        >
+        <a class="nav-item" href="web3.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 3.0</span></a
+        >
+        <a class="nav-item" href="web4.html"
+          ><div class="nav-dot"></div>
+          <span class="nav-text">Web 4.0</span></a
+        >
       </nav>
     </aside>
 
-    <!-- MAIN -->
     <div class="main-content">
       <div class="topbar">
-        <div class="breadcrumb">
-          <a href="index.html">Home</a>
-        </div>
-        <div class="page-nav">
-          <a class="page-btn" href="www.html">First Term &#8594;</a>
-        </div>
+        <div class="breadcrumb">Home</div>
       </div>
 
-      <div class="home-hero">
-        <div class="term-badge">
-          Assignment 1 &nbsp;/&nbsp; Internet Technology
+      <div class="page-body">
+        <div class="page-heading">Internet Terminology</div>
+        <div class="page-sub">
+          Computer &amp; Internet Technology &nbsp;&#9670;&nbsp; 15 Terms
         </div>
-        <div class="home-title">Internet Terminology<br />Reference Guide</div>
-        <p class="home-desc">
-          A comprehensive breakdown of fundamental Internet and Web Technology
-          terms. Select any term from the sidebar or click a card below to
-          explore its role in Computer and Internet Technology.
-        </p>
-      </div>
 
-      <div class="terms-grid">
-        <a class="term-card" href="www.html">
-          <div class="term-card-num">01</div>
-          <div class="term-card-title">World Wide Web</div>
-          <div class="term-card-desc">
-            The global information system built on hyperlinks and HTTP.
-          </div>
-        </a>
-        <a class="term-card" href="tcp-ip.html">
-          <div class="term-card-num">02</div>
-          <div class="term-card-title">TCP/IP</div>
-          <div class="term-card-desc">
-            The foundational communication protocols of the Internet.
-          </div>
-        </a>
-        <a class="term-card" href="web-browsers.html">
-          <div class="term-card-num">03</div>
-          <div class="term-card-title">Web Browsers</div>
-          <div class="term-card-desc">
-            Software that retrieves and renders web pages for users.
-          </div>
-        </a>
-        <a class="term-card" href="web-servers.html">
-          <div class="term-card-num">04</div>
-          <div class="term-card-title">Web Servers</div>
-          <div class="term-card-desc">
-            Systems that store and deliver web content on request.
-          </div>
-        </a>
-        <a class="term-card" href="urls.html">
-          <div class="term-card-num">05</div>
-          <div class="term-card-title">Uniform Resource Locators</div>
-          <div class="term-card-desc">
-            Addresses used to locate resources on the Internet.
-          </div>
-        </a>
-        <a class="term-card" href="dns.html">
-          <div class="term-card-num">06</div>
-          <div class="term-card-title">Domain Name Server</div>
-          <div class="term-card-desc">
-            Translates human-readable domains into IP addresses.
-          </div>
-        </a>
-        <a class="term-card" href="http.html">
-          <div class="term-card-num">07</div>
-          <div class="term-card-title">HTTP</div>
-          <div class="term-card-desc">
-            Protocol governing data transfer between browsers and servers.
-          </div>
-        </a>
-        <a class="term-card" href="intranet.html">
-          <div class="term-card-num">08</div>
-          <div class="term-card-title">Intranet</div>
-          <div class="term-card-desc">
-            A private network accessible only within an organisation.
-          </div>
-        </a>
-        <a class="term-card" href="extranet.html">
-          <div class="term-card-num">09</div>
-          <div class="term-card-title">Extranet</div>
-          <div class="term-card-desc">
-            A controlled extension of an intranet to external partners.
-          </div>
-        </a>
-        <a class="term-card" href="multitier.html">
-          <div class="term-card-num">10</div>
-          <div class="term-card-title">Multitier Architecture</div>
-          <div class="term-card-desc">
-            Layered design separating presentation, logic, and data.
-          </div>
-        </a>
-        <a class="term-card" href="ftp.html">
-          <div class="term-card-num">11</div>
-          <div class="term-card-title">File Transfer Protocol</div>
-          <div class="term-card-desc">
-            Standard protocol for transferring files over a network.
-          </div>
-        </a>
-        <a class="term-card" href="html-term.html">
-          <div class="term-card-num">12</div>
-          <div class="term-card-title">HTML</div>
-          <div class="term-card-desc">
-            The markup language used to structure web page content.
-          </div>
-        </a>
-        <a class="term-card" href="web1.html">
-          <div class="term-card-num">13</div>
-          <div class="term-card-title">Web 1.0</div>
-          <div class="term-card-desc">
-            The static, read-only era of the early web (1991–2004).
-          </div>
-        </a>
-        <a class="term-card" href="web2.html">
-          <div class="term-card-num">14</div>
-          <div class="term-card-title">Web 2.0</div>
-          <div class="term-card-desc">
-            The interactive, social and user-generated content era.
-          </div>
-        </a>
-        <a class="term-card" href="web3.html">
-          <div class="term-card-num">15</div>
-          <div class="term-card-title">Web 3.0</div>
-          <div class="term-card-desc">
-            The semantic, decentralised and intelligent web.
-          </div>
-        </a>
-        <a class="term-card" href="web4.html">
-          <div class="term-card-num">16</div>
-          <div class="term-card-title">Web 4.0</div>
-          <div class="term-card-desc">
-            The symbiotic, AI-driven and immersive web of the future.
-          </div>
-        </a>
+        <div class="group-label">Core Concepts</div>
+        <div class="terms-grid">
+          <a class="term-card" href="www.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">World Wide Web</span></a
+          >
+          <a class="term-card" href="tcp-ip.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">TCP/IP</span></a
+          >
+          <a class="term-card" href="web-browsers.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Web Browsers</span></a
+          >
+          <a class="term-card" href="web-servers.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Web Servers</span></a
+          >
+        </div>
+
+        <div class="group-label">Addressing</div>
+        <div class="terms-grid">
+          <a class="term-card" href="urls.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">URLs</span></a
+          >
+          <a class="term-card" href="dns.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Domain Name Server</span></a
+          >
+          <a class="term-card" href="http.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">HTTP</span></a
+          >
+        </div>
+
+        <div class="group-label">Networks</div>
+        <div class="terms-grid">
+          <a class="term-card" href="intranet.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Intranet</span></a
+          >
+          <a class="term-card" href="extranet.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Extranet</span></a
+          >
+          <a class="term-card" href="multitier.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Multitier Architecture</span></a
+          >
+        </div>
+
+        <div class="group-label">Protocols &amp; Languages</div>
+        <div class="terms-grid">
+          <a class="term-card" href="ftp.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">File Transfer Protocol</span></a
+          >
+          <a class="term-card" href="html-term.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">HTML</span></a
+          >
+        </div>
+
+        <div class="group-label">Web Evolution</div>
+        <div class="terms-grid">
+          <a class="term-card" href="web1.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Web 1.0</span></a
+          >
+          <a class="term-card" href="web2.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Web 2.0</span></a
+          >
+          <a class="term-card" href="web3.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Web 3.0</span></a
+          >
+          <a class="term-card" href="web4.html"
+            ><div class="term-card-dot"></div>
+            <span class="term-card-name">Web 4.0</span></a
+          >
+        </div>
       </div>
     </div>
   </body>
